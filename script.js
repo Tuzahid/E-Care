@@ -1,9 +1,9 @@
 (() => {
   "use strict";
 
-  /* =========================================
-     E-CARE V3 FINAL
-     ========================================= */
+  /* =========================================================
+     E-CARE FINAL JAVASCRIPT
+     ========================================================= */
 
   const PAYMENT_NUMBER = "01797937668";
   const WHATSAPP_NUMBER = "8801745221602";
@@ -13,46 +13,78 @@
   const PENDING_REG_KEY = "ecare_pending_registration_v3";
   const PENDING_COURSE_KEY = "ecare_pending_course_v3";
 
-  /* FREE COURSES */
+
+  /* =========================================================
+     COURSE INFORMATION
+     ========================================================= */
+
   const FREE_COURSES = [
     "Web Development",
     "Digital Marketing"
   ];
 
-  /* PAID COURSES */
   const PAID_COURSES = {
     "Graphic Design": 1000,
     "Video Editing": 800
   };
 
 
-  /* =========================================
-     ELEMENTS
-     ========================================= */
+  /* =========================================================
+     GET HTML ELEMENTS
+     ========================================================= */
 
-  const modal = document.getElementById("modal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalContent = document.getElementById("modalContent");
-  const modalClose = document.getElementById("modalClose");
-  const modalOverlay = document.getElementById("modalOverlay");
+  const modal =
+    document.getElementById("modal");
+
+  const modalTitle =
+    document.getElementById("modalTitle");
+
+  const modalContent =
+    document.getElementById("modalContent");
+
+  const modalClose =
+    document.getElementById("modalClose");
 
 
-  /* =========================================
+  /* =========================================================
+     CHECK REQUIRED ELEMENTS
+     ========================================================= */
+
+  if (
+    !modal ||
+    !modalTitle ||
+    !modalContent ||
+    !modalClose
+  ) {
+    console.error(
+      "E-Care: Required modal elements are missing."
+    );
+
+    return;
+  }
+
+
+  /* =========================================================
      USER DATA
-     ========================================= */
+     ========================================================= */
 
   function getUser() {
+
     try {
+
       return JSON.parse(
         localStorage.getItem(USER_KEY) || "null"
       );
+
     } catch (error) {
+
       return null;
     }
   }
 
 
   function saveUser(user) {
+
     localStorage.setItem(
       USER_KEY,
       JSON.stringify(user)
@@ -60,9 +92,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      MODAL
-     ========================================= */
+     ========================================================= */
 
   function openModal(title, html) {
 
@@ -94,9 +126,9 @@
   }
 
 
-  /* =========================================
-     SECURITY
-     ========================================= */
+  /* =========================================================
+     ESCAPE HTML
+     ========================================================= */
 
   function escapeHtml(value) {
 
@@ -118,9 +150,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      COPY PAYMENT NUMBER
-     ========================================= */
+     ========================================================= */
 
   function copyNumber() {
 
@@ -147,7 +179,6 @@
             "Payment Number:\n" +
             PAYMENT_NUMBER
           );
-
         });
 
     } else {
@@ -160,9 +191,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      PAYMENT INTERFACE
-     ========================================= */
+     ========================================================= */
 
   function paymentHTML(
     amount,
@@ -179,44 +210,54 @@
           </strong>
         </div>
 
-        <div class="payment-row">
+        <p>
+          bKash / Nagad Send Money
+        </p>
 
-          <span>
-            bKash / Nagad Send Money
-          </span>
-
+        <p>
           <strong>
             ${PAYMENT_NUMBER}
           </strong>
+        </p>
 
-          <button
-            type="button"
-            class="copy-btn"
-            id="copyPaymentNumber">
-            Copy
-          </button>
+        <button
+          type="button"
+          class="copy-btn"
+          id="copyPaymentNumber">
 
-        </div>
+          Copy Number
 
-        <div class="small">
+        </button>
+
+        <p class="small">
 
           Send exactly
           <strong>৳${amount}</strong>
-
           using bKash or Nagad Send Money.
 
-        </div>
+        </p>
 
       </div>
 
+
       <div class="form-grid">
 
-        <input
-          id="transactionId"
-          type="text"
-          placeholder="Transaction ID"
-          autocomplete="off"
-          maxlength="100">
+        <div class="form-group">
+
+          <label for="transactionId">
+            Transaction ID
+          </label>
+
+          <input
+            id="transactionId"
+            type="text"
+            placeholder="Enter Transaction ID"
+            autocomplete="off"
+            maxlength="100"
+          >
+
+        </div>
+
 
         <button
           type="button"
@@ -249,13 +290,14 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      MENU
-     ========================================= */
+     ========================================================= */
 
   function showMenu() {
 
     const user = getUser();
+
 
     if (user) {
 
@@ -273,6 +315,7 @@
 
           </button>
 
+
           <button
             type="button"
             id="logoutBtn">
@@ -284,6 +327,7 @@
         </div>
         `
       );
+
 
       document
         .getElementById("profileBtn")
@@ -316,6 +360,7 @@
 
           </button>
 
+
           <button
             type="button"
             id="menuRegBtn">
@@ -347,9 +392,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      LOGOUT
-     ========================================= */
+     ========================================================= */
 
   function logoutUser() {
 
@@ -373,13 +418,14 @@
   }
 
 
-  /* =========================================
-     REGISTRATION FORM
-     ========================================= */
+  /* =========================================================
+     REGISTRATION
+     ========================================================= */
 
   function showRegistration() {
 
     const currentUser = getUser();
+
 
     if (currentUser) {
 
@@ -402,6 +448,7 @@
           </strong>
 
         </div>
+
 
         <button
           type="button"
@@ -438,58 +485,111 @@
 
       </p>
 
+
       <form
         id="regForm"
         class="form-grid">
 
-        <input
-          id="regName"
-          placeholder="Full Name"
-          autocomplete="name"
-          maxlength="80"
-          required>
 
-        <select
-          id="regDivision"
-          required>
+        <div class="form-group">
 
-          <option value="">
-            Select Division
-          </option>
+          <label for="regName">
+            Full Name
+          </label>
 
-          <option>Dhaka</option>
-          <option>Chattogram</option>
-          <option>Rajshahi</option>
-          <option>Khulna</option>
-          <option>Barishal</option>
-          <option>Sylhet</option>
-          <option>Rangpur</option>
-          <option>Mymensingh</option>
+          <input
+            id="regName"
+            type="text"
+            placeholder="Full Name"
+            autocomplete="name"
+            maxlength="80"
+            required
+          >
 
-        </select>
+        </div>
 
-        <input
-          id="regDistrict"
-          placeholder="District"
-          autocomplete="address-level2"
-          maxlength="60"
-          required>
 
-        <input
-          id="regMobile"
-          type="tel"
-          placeholder="Mobile Number"
-          autocomplete="tel"
-          maxlength="20"
-          required>
+        <div class="form-group">
 
-        <input
-          id="regGmail"
-          type="email"
-          placeholder="Gmail"
-          autocomplete="email"
-          maxlength="120"
-          required>
+          <label for="regDivision">
+            Division
+          </label>
+
+          <select
+            id="regDivision"
+            required>
+
+            <option value="">
+              Select Division
+            </option>
+
+            <option>Dhaka</option>
+            <option>Chattogram</option>
+            <option>Rajshahi</option>
+            <option>Khulna</option>
+            <option>Barishal</option>
+            <option>Sylhet</option>
+            <option>Rangpur</option>
+            <option>Mymensingh</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="regDistrict">
+            District
+          </label>
+
+          <input
+            id="regDistrict"
+            type="text"
+            placeholder="District"
+            autocomplete="address-level2"
+            maxlength="60"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="regMobile">
+            Mobile Number
+          </label>
+
+          <input
+            id="regMobile"
+            type="tel"
+            placeholder="Mobile Number"
+            autocomplete="tel"
+            maxlength="20"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="regGmail">
+            Gmail
+          </label>
+
+          <input
+            id="regGmail"
+            type="email"
+            placeholder="Gmail"
+            autocomplete="email"
+            maxlength="120"
+            required
+          >
+
+        </div>
+
 
         <button
           class="modal-button"
@@ -543,7 +643,6 @@
                 .getElementById("regGmail")
                 .value
                 .trim()
-
           };
 
 
@@ -575,9 +674,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      REGISTRATION PAYMENT
-     ========================================= */
+     ========================================================= */
 
   function showRegistrationPayment() {
 
@@ -601,13 +700,16 @@
         "click",
         function () {
 
+          const transactionInput =
+            document.getElementById(
+              "transactionId"
+            );
+
+
           const transactionId =
-            document
-              .getElementById(
-                "transactionId"
-              )
-              .value
-              .trim();
+            transactionInput
+              ? transactionInput.value.trim()
+              : "";
 
 
           if (!transactionId) {
@@ -638,6 +740,10 @@
 
 
           if (!data) {
+
+            alert(
+              "Registration information was lost. Please register again."
+            );
 
             showRegistration();
 
@@ -674,29 +780,25 @@
             ...data,
 
             registrationId:
-
               registrationId,
 
             serialNumber:
-
               totalStudents,
 
             registrationPaid:
-
               true,
 
             registrationTransactionId:
-
               transactionId,
 
             paidCourses:
-
               [],
 
             freeCourses:
+              [...FREE_COURSES],
 
-              [...FREE_COURSES]
-
+            courseTransactions:
+              {}
           };
 
 
@@ -716,13 +818,11 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      REGISTRATION SUCCESS
-     ========================================= */
+     ========================================================= */
 
-  function showRegistrationSuccess(
-    user
-  ) {
+  function showRegistrationSuccess(user) {
 
     openModal(
       "Registration Successful",
@@ -744,7 +844,7 @@
           )}
         </strong>
 
-        <br>
+        <br><br>
 
         Serial Number:
 
@@ -778,6 +878,7 @@
 
       </div>
 
+
       <button
         type="button"
         class="modal-button"
@@ -799,9 +900,9 @@
   }
 
 
-  /* =========================================
-     VERIFY & LOGIN
-     ========================================= */
+  /* =========================================================
+     LOGIN
+     ========================================================= */
 
   function showLogin() {
 
@@ -816,13 +917,25 @@
 
       </p>
 
+
       <div class="form-grid">
 
-        <input
-          id="loginId"
-          placeholder="Registration ID"
-          autocomplete="off"
-          maxlength="30">
+        <div class="form-group">
+
+          <label for="loginId">
+            Registration ID
+          </label>
+
+          <input
+            id="loginId"
+            type="text"
+            placeholder="Registration ID"
+            autocomplete="off"
+            maxlength="30"
+          >
+
+        </div>
+
 
         <button
           type="button"
@@ -848,21 +961,34 @@
             getUser();
 
 
+          const input =
+            document.getElementById(
+              "loginId"
+            );
+
+
           const enteredId =
-            document
-              .getElementById(
-                "loginId"
-              )
-              .value
-              .trim();
+            input
+              ? input.value.trim()
+              : "";
+
+
+          if (!enteredId) {
+
+            alert(
+              "Please enter your Registration ID."
+            );
+
+            return;
+          }
 
 
           if (
             currentUser &&
-            enteredId &&
+            currentUser.registrationId &&
             currentUser.registrationId
               .toLowerCase() ===
-              enteredId.toLowerCase()
+            enteredId.toLowerCase()
           ) {
 
             showProfile();
@@ -878,9 +1004,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      STUDENT DASHBOARD
-     ========================================= */
+     ========================================================= */
 
   function showProfile() {
 
@@ -913,63 +1039,95 @@
       `
       <div class="profile">
 
-        <div>
+        <h3>
+          Student Information
+        </h3>
+
+
+        <div class="info">
           <strong>Name:</strong>
           ${escapeHtml(user.name)}
         </div>
 
-        <div>
+
+        <div class="info">
           <strong>Registration ID:</strong>
           ${escapeHtml(
             user.registrationId
           )}
         </div>
 
-        <div>
+
+        <div class="info">
           <strong>Serial Number:</strong>
           ${escapeHtml(
             user.serialNumber
           )}
         </div>
 
-        <div>
-          <strong>
-            Total Students:
-          </strong>
+
+        <div class="info">
+          <strong>Total Students:</strong>
           ${escapeHtml(
             totalStudents
           )}
         </div>
 
+
         <br>
 
-        <div>
+
+        <div class="info">
+
           <strong>
             Free Courses:
           </strong>
 
-          Web Development,
-          Digital Marketing
+          <br><br>
+
+          <span class="badge">
+            Web Development — FREE
+          </span>
+
+          <span class="badge">
+            Digital Marketing — FREE
+          </span>
+
         </div>
+
 
         <br>
 
-        <div>
+
+        <div class="info">
+
           <strong>
             Paid / Unlocked Courses:
           </strong>
 
+          <br><br>
+
           ${
             paidCourses.length
               ? paidCourses
-                  .map(escapeHtml)
-                  .join(", ")
+                  .map(function(course) {
+
+                    return `
+                      <span class="badge">
+                        ${escapeHtml(course)}
+                        — FREE
+                      </span>
+                    `;
+
+                  })
+                  .join("")
               : "None"
           }
 
         </div>
 
       </div>
+
 
       <button
         type="button"
@@ -994,9 +1152,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      REGISTRATION REQUIRED
-     ========================================= */
+     ========================================================= */
 
   function showRegistrationRequired() {
 
@@ -1013,7 +1171,7 @@
 
         After successful registration:
 
-        <br>
+        <br><br>
 
         Web Development
         and
@@ -1021,6 +1179,7 @@
         will be FREE.
 
       </div>
+
 
       <button
         type="button"
@@ -1045,9 +1204,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      COURSE SYSTEM
-     ========================================= */
+     ========================================================= */
 
   function showCourse(
     course,
@@ -1057,7 +1216,9 @@
     const user = getUser();
 
 
-    /* FREE COURSES */
+    /* -----------------------------------------
+       FREE COURSES
+       ----------------------------------------- */
 
     if (
       FREE_COURSES.includes(course)
@@ -1104,7 +1265,9 @@
     }
 
 
-    /* PAID COURSES */
+    /* -----------------------------------------
+       PAID COURSES
+       ----------------------------------------- */
 
     if (!user) {
 
@@ -1138,7 +1301,7 @@
       user.paidCourses || [];
 
 
-    /* ALREADY PAID */
+    /* ALREADY UNLOCKED */
 
     if (
       paidCourses.includes(course)
@@ -1204,13 +1367,16 @@
         "click",
         function () {
 
+          const transactionInput =
+            document.getElementById(
+              "transactionId"
+            );
+
+
           const transactionId =
-            document
-              .getElementById(
-                "transactionId"
-              )
-              .value
-              .trim();
+            transactionInput
+              ? transactionInput.value.trim()
+              : "";
 
 
           if (!transactionId) {
@@ -1236,8 +1402,7 @@
 
 
           currentUser.paidCourses =
-            currentUser.paidCourses ||
-            [];
+            currentUser.paidCourses || [];
 
 
           if (
@@ -1253,8 +1418,7 @@
 
 
           currentUser.courseTransactions =
-            currentUser.courseTransactions ||
-            {};
+            currentUser.courseTransactions || {};
 
 
           currentUser.courseTransactions[
@@ -1293,6 +1457,7 @@
 
             </div>
 
+
             <button
               type="button"
               class="modal-button"
@@ -1318,9 +1483,9 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      WHATSAPP
-     ========================================= */
+     ========================================================= */
 
   function openWhatsApp() {
 
@@ -1333,14 +1498,17 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      MAIN BUTTONS
-     ========================================= */
+     IMPORTANT:
+     These IDs exactly match index.html
+     ========================================================= */
 
   const menuButton =
     document.getElementById(
-      "menuBtn"
+      "menuButton"
     );
+
 
   if (menuButton) {
 
@@ -1353,8 +1521,9 @@
 
   const registrationButton =
     document.getElementById(
-      "registrationBtn"
+      "registrationButton"
     );
+
 
   if (registrationButton) {
 
@@ -1367,8 +1536,9 @@
 
   const whatsappButton =
     document.getElementById(
-      "whatsappBtn"
+      "whatsappButton"
     );
+
 
   if (whatsappButton) {
 
@@ -1379,25 +1549,38 @@
   }
 
 
-  /* =========================================
+  /* =========================================================
      COURSE BUTTONS
-     ========================================= */
+     ========================================================= */
 
   document
-    .querySelectorAll("[data-course]")
-    .forEach(function (button) {
+    .querySelectorAll(
+      ".course-area[data-course]"
+    )
+    .forEach(function(button) {
 
       button.addEventListener(
         "click",
-        function () {
+        function() {
 
           const course =
-            button.dataset.course;
+            button.getAttribute(
+              "data-course"
+            );
+
+
+          const dataPrice =
+            Number(
+              button.getAttribute(
+                "data-price"
+              )
+            );
+
 
           const price =
-            Number(
-              button.dataset.price
-            ) || PAID_COURSES[course] || 0;
+            dataPrice ||
+            PAID_COURSES[course] ||
+            0;
 
 
           showCourse(
@@ -1409,45 +1592,65 @@
     });
 
 
-  /* =========================================
-     MODAL CLOSE
-     ========================================= */
+  /* =========================================================
+     MODAL CLOSE BUTTON
+     ========================================================= */
 
-  if (modalClose) {
-
-    modalClose.addEventListener(
-      "click",
-      closeModal
-    );
-  }
+  modalClose.addEventListener(
+    "click",
+    closeModal
+  );
 
 
-  if (modalOverlay) {
+  /* =========================================================
+     CLICK OUTSIDE MODAL
+     ========================================================= */
 
-    modalOverlay.addEventListener(
-      "click",
-      closeModal
-    );
-  }
+  modal.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === modal
+      ) {
+
+        closeModal();
+      }
+    }
+  );
 
 
-  /* =========================================
+  /* =========================================================
      ESC KEY
-     ========================================= */
+     ========================================================= */
 
   document.addEventListener(
     "keydown",
-    function (event) {
+    function(event) {
 
       if (
         event.key === "Escape" &&
-        modal &&
         modal.classList.contains("active")
       ) {
 
         closeModal();
       }
     }
+  );
+
+
+  /* =========================================================
+     INITIAL STATE
+     ========================================================= */
+
+  modal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  console.log(
+    "E-Care website JavaScript loaded successfully."
   );
 
 })();
