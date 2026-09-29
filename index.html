@@ -2,112 +2,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0,
-                 maximum-scale=1.0, user-scalable=no">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <meta name="theme-color" content="#ffffff">
 
-  <title>E-Care | Digital Learning & Student Care Platform</title>
+  <title>E-Care Official Portal</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <!-- =========================================================
+       MAIN WEBSITE
+       ========================================================= -->
+
   <main class="page">
 
     <!-- FINAL DESIGN IMAGE -->
     <img
       src="assets/final-design.png"
+      alt="E-Care Official Portal"
       class="final-design"
-      alt="E-Care Digital Learning and Student Care Platform"
     >
+
+
+    <!-- =======================================================
+         INVISIBLE CLICK AREAS
+         ======================================================= -->
 
     <!-- MENU -->
     <button
+      type="button"
       class="click-area menu-area"
-      id="menuBtn"
-      aria-label="Menu">
-    </button>
+      id="menuButton"
+      aria-label="Open Menu"
+    ></button>
+
 
     <!-- WHATSAPP -->
     <button
+      type="button"
       class="click-area whatsapp-area"
-      id="whatsappBtn"
-      aria-label="Information Send">
-    </button>
+      id="whatsappButton"
+      aria-label="Contact E-Care on WhatsApp"
+    ></button>
+
 
     <!-- REGISTRATION -->
     <button
+      type="button"
       class="click-area registration-area"
-      id="registrationBtn"
-      aria-label="Registration">
-    </button>
+      id="registrationButton"
+      aria-label="Registration"
+    ></button>
+
 
     <!-- WEB DEVELOPMENT -->
     <button
-      class="click-area course-area course-web"
+      type="button"
+      class="click-area course-area web-area"
       data-course="Web Development"
-      aria-label="Web Development">
-    </button>
+      aria-label="Web Development"
+    ></button>
+
 
     <!-- GRAPHIC DESIGN -->
     <button
-      class="click-area course-area course-graphic"
+      type="button"
+      class="click-area course-area graphic-area"
       data-course="Graphic Design"
-      aria-label="Graphic Design">
-    </button>
+      aria-label="Graphic Design"
+    ></button>
+
 
     <!-- DIGITAL MARKETING -->
     <button
-      class="click-area course-area course-marketing"
+      type="button"
+      class="click-area course-area digital-area"
       data-course="Digital Marketing"
-      aria-label="Digital Marketing">
-    </button>
+      aria-label="Digital Marketing"
+    ></button>
+
 
     <!-- VIDEO EDITING -->
     <button
-      class="click-area course-area course-video"
+      type="button"
+      class="click-area course-area video-area"
       data-course="Video Editing"
-      aria-label="Video Editing">
-    </button>
+      aria-label="Video Editing"
+    ></button>
 
   </main>
 
 
-  <!-- MODAL -->
+  <!-- =========================================================
+       MODAL
+       ========================================================= -->
 
-  <div class="modal" id="modal">
+  <div
+    class="modal-overlay"
+    id="modal"
+    aria-hidden="true"
+  >
 
-    <div class="modal-overlay" id="modalOverlay"></div>
+    <div
+      class="modal-box"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
 
-    <div class="modal-box">
-
+      <!-- CLOSE BUTTON -->
       <button
+        type="button"
         class="modal-close"
-        id="modalClose">
-        ×
+        id="modalClose"
+        aria-label="Close"
+      >
+        &times;
       </button>
 
+
+      <!-- MODAL TITLE -->
       <h2 id="modalTitle">
         E-Care
       </h2>
 
-      <p id="modalMessage">
-        Welcome to E-Care.
-      </p>
 
-      <button
-        class="modal-button"
-        id="modalOk">
-        OK
-      </button>
+      <!-- IMPORTANT:
+           script.js uses modalContent.
+           Do not change this ID.
+      -->
+      <div id="modalContent">
+
+        <p>
+          Welcome to E-Care.
+        </p>
+
+      </div>
 
     </div>
 
   </div>
 
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
 
   <script src="script.js"></script>
 
