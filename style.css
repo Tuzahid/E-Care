@@ -1,0 +1,349 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  position: relative;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  line-height: 0;
+  background: #ffffff;
+}
+
+/*
+==================================================
+FINAL DESIGN
+==================================================
+*/
+
+.final-design {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+
+/*
+==================================================
+INVISIBLE CLICK AREAS
+==================================================
+These areas sit over the controls of the
+final design without changing the appearance.
+==================================================
+*/
+
+.click-area {
+  position: absolute;
+
+  display: block;
+
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 10;
+
+  outline: none;
+}
+
+
+/*
+MENU
+*/
+
+.menu-area {
+  left: 84.5%;
+  top: 1.1%;
+
+  width: 8.5%;
+  height: 4.6%;
+}
+
+
+/*
+WHATSAPP
+*/
+
+.whatsapp-area {
+  left: 10.5%;
+  top: 18.5%;
+
+  width: 34.5%;
+  height: 5.8%;
+}
+
+
+/*
+REGISTRATION
+*/
+
+.registration-area {
+  left: 64.0%;
+  top: 28.7%;
+
+  width: 27.5%;
+  height: 5.2%;
+}
+
+
+/*
+COURSES
+*/
+
+.course-area {
+  width: 38.5%;
+  height: 13.8%;
+}
+
+
+/*
+WEB DEVELOPMENT
+*/
+
+.course-web {
+  left: 10.5%;
+  top: 36.0%;
+}
+
+
+/*
+GRAPHIC DESIGN
+*/
+
+.course-graphic {
+  left: 50.8%;
+  top: 36.0%;
+}
+
+
+/*
+DIGITAL MARKETING
+*/
+
+.course-marketing {
+  left: 10.5%;
+  top: 50.8%;
+}
+
+
+/*
+VIDEO EDITING
+*/
+
+.course-video {
+  left: 50.8%;
+  top: 50.8%;
+}
+
+
+/*
+==================================================
+MODAL
+==================================================
+*/
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 9999;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(0, 25, 60, 0.55);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.modal-box {
+  position: relative;
+
+  width: min(92vw, 420px);
+
+  padding: 28px 24px 24px;
+
+  background: #ffffff;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 30, 70, 0.28);
+
+  z-index: 2;
+
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+.modal-box h2 {
+  margin: 0 0 10px;
+
+  color: #092d72;
+
+  font-size: 25px;
+}
+
+.modal-box p {
+  margin: 0 0 22px;
+
+  color: #176287;
+
+  font-size: 15px;
+}
+
+.modal-close {
+  position: absolute;
+
+  top: 7px;
+  right: 11px;
+
+  width: 38px;
+  height: 38px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #092d72;
+
+  font-size: 30px;
+
+  line-height: 38px;
+
+  cursor: pointer;
+}
+
+.modal-button {
+  border: 0;
+
+  padding: 11px 25px;
+
+  border-radius: 999px;
+
+  background: #11ae88;
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/*
+==================================================
+MOBILE
+==================================================
+*/
+
+@media (max-width: 600px) {
+
+  .page {
+    width: 100%;
+  }
+
+  .menu-area {
+    left: 84%;
+    top: 1%;
+
+    width: 9%;
+    height: 4.8%;
+  }
+
+  .whatsapp-area {
+    left: 10%;
+    top: 18.4%;
+
+    width: 35%;
+    height: 6%;
+  }
+
+  .registration-area {
+    left: 63.5%;
+    top: 28.5%;
+
+    width: 28%;
+    height: 5.5%;
+  }
+
+  .course-area {
+    width: 39%;
+    height: 14%;
+  }
+
+  .course-web,
+  .course-graphic {
+    top: 36%;
+  }
+
+  .course-marketing,
+  .course-video {
+    top: 50.7%;
+  }
+
+  .modal-box {
+    border-radius: 18px;
+  }
+}
+
+
+/*
+VERY SMALL DEVICES
+*/
+
+@media (max-width: 350px) {
+
+  .modal-box {
+    width: 94vw;
+    padding: 25px 18px 20px;
+  }
+
+}
