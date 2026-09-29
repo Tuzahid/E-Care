@@ -32,6 +32,13 @@
   const PENDING_COURSE_KEY =
     "ecare_pending_course_v3";
 
+  /*
+     Permanent student database.
+     Logout will NOT delete this database.
+  */
+  const USERS_DB_KEY =
+    "ecare_users_database_v3";
+
 
   /* =========================================================
      COURSE INFORMATION
@@ -114,6 +121,161 @@
     localStorage.setItem(
       USER_KEY,
       JSON.stringify(user)
+    );
+  }
+
+
+  /* =========================================================
+     PERMANENT STUDENT DATABASE
+     ========================================================= */
+
+  function getUsersDatabase() {
+
+    try {
+
+      const users =
+        JSON.parse(
+          localStorage.getItem(
+            USERS_DB_KEY
+          ) || "[]"
+        );
+
+
+      return Array.isArray(users)
+        ? users
+        : [];
+
+    } catch (error) {
+
+      console.error(
+        "E-Care: Could not read users database.",
+        error
+      );
+
+      return [];
+    }
+  }
+
+
+  function saveUsersDatabase(users) {
+
+    localStorage.setItem(
+      USERS_DB_KEY,
+      JSON.stringify(users)
+    );
+  }
+
+
+  function saveUserToDatabase(user) {
+
+    if (
+      !user ||
+      !user.registrationId
+    ) {
+
+      return;
+    }
+
+
+    const users =
+      getUsersDatabase();
+
+
+    const index =
+      users.findIndex(
+        function(existingUser) {
+
+          return (
+            existingUser &&
+            existingUser.registrationId &&
+            existingUser.registrationId
+              .trim()
+              .toLowerCase() ===
+            user.registrationId
+              .trim()
+              .toLowerCase()
+          );
+
+        }
+      );
+
+
+    if (index >= 0) {
+
+      users[index] = user;
+
+    } else {
+
+      users.push(user);
+
+    }
+
+
+    saveUsersDatabase(users);
+  }
+
+
+  function findUserByRegistrationId(
+    registrationId
+  ) {
+
+    if (!registrationId) {
+      return null;
+    }
+
+
+    const users =
+      getUsersDatabase();
+
+
+    const normalizedId =
+      String(registrationId)
+        .trim()
+        .toLowerCase();
+
+
+    return (
+      users.find(
+        function(user) {
+
+          return (
+            user &&
+            user.registrationId &&
+            String(
+              user.registrationId
+            )
+              .trim()
+              .toLowerCase() ===
+            normalizedId
+          );
+
+        }
+      ) || null
+    );
+  }
+
+
+  /* =========================================================
+     MIGRATE CURRENT USER
+     ========================================================= */
+
+  /*
+     If a student is already registered before this
+     updated version is installed, their current record
+     will automatically be added to the permanent database.
+  */
+
+  const existingUser =
+    getUser();
+
+
+  if (
+    existingUser &&
+    existingUser.registrationId
+  ) {
+
+    saveUserToDatabase(
+      existingUser
     );
   }
 
@@ -674,6 +836,11 @@
      ========================================================= */
 
   function logoutUser() {
+
+    /*
+       Only the active login is removed.
+       Permanent student database remains safe.
+    */
 
     localStorage.removeItem(
       USER_KEY
@@ -1477,6 +1644,10 @@
           paidCourses:
             [],
 
+          /*
+             These two courses are automatically
+             FREE after successful registration.
+          */
           freeCourses:
             [...FREE_COURSES],
 
@@ -1485,7 +1656,16 @@
         };
 
 
+        /*
+           Save active user.
+        */
         saveUser(user);
+
+
+        /*
+           Save permanently in student database.
+        */
+        saveUserToDatabase(user);
 
 
         sessionStorage.removeItem(
@@ -1695,10 +1875,6 @@
       "click",
       function() {
 
-        const currentUser =
-          getUser();
-
-
         const input =
           document.getElementById(
             "loginId"
@@ -1725,20 +1901,35 @@
         }
 
 
-        if (
-          currentUser &&
-          currentUser.registrationId &&
-          currentUser.registrationId
-            .toLowerCase() ===
-          enteredId.toLowerCase()
-        ) {
+        /*
+           Search the permanent student database,
+           NOT only the currently logged-in user.
+        */
+
+        const foundUser =
+          findUserByRegistrationId(
+            enteredId
+          );
+
+
+        if (foundUser) {
+
+          /*
+             Restore the complete student record
+             as the active user on this device.
+          */
+
+          saveUser(
+            foundUser
+          );
+
 
           showProfile();
 
         } else {
 
           alert(
-            "Registration ID was not found on this device."
+            "Registration ID was not found."
           );
         }
       }
@@ -1762,6 +1953,16 @@
 
       return;
     }
+
+
+    /*
+       Ensure older/current records always remain
+       synchronized with the permanent database.
+    */
+
+    saveUserToDatabase(
+      user
+    );
 
 
     const totalStudents =
@@ -2088,6 +2289,38 @@
       }
 
 
+      /*
+         Make sure these courses are recorded
+         as free for this registered student.
+      */
+
+      user.freeCourses =
+        user.freeCourses || [];
+
+
+      FREE_COURSES.forEach(
+        function(freeCourse) {
+
+          if (
+            !user.freeCourses.includes(
+              freeCourse
+            )
+          ) {
+
+            user.freeCourses.push(
+              freeCourse
+            );
+          }
+
+        }
+      );
+
+
+      saveUser(user);
+
+      saveUserToDatabase(user);
+
+
       openModal(
         course,
 
@@ -2301,7 +2534,17 @@
           transactionId;
 
 
+        /*
+           Save both active user and
+           permanent student database.
+        */
+
         saveUser(
+          currentUser
+        );
+
+
+        saveUserToDatabase(
           currentUser
         );
 
